@@ -1,20 +1,22 @@
+import { Routes, Route } from "react-router-dom"
 import Navbar from "./components/Navbar"
-import Hero from "./components/Hero"
-import OrbitSkills from "./components/OrbitSkills"
-import Projects from "./components/Projects"
-import CursorGlow from "./components/CursorGlow"
+
+import Home from "./pages/Home"
+import Skills from "./pages/Skills"
+import Projects from "./pages/Projects"
+import Certifications from "./pages/Certifications"
 
 export default function App() {
   return (
-    <div className="relative bg-gray-950 text-white min-h-screen overflow-hidden">
-      <CursorGlow />
+    <div className="min-h-screen bg-white">
       <Navbar />
 
-      <main>
-        <Hero />
-        <OrbitSkills />
-        <Projects />
-      </main>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/skills" element={<Skills />} />
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/certifications" element={<Certifications />} />
+      </Routes>
     </div>
   )
 }
