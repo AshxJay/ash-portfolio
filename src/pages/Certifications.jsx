@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { motion } from "framer-motion"
 import { SiAmazon } from "react-icons/si"
 import { FaCertificate } from "react-icons/fa"
@@ -5,19 +6,29 @@ import { FaCertificate } from "react-icons/fa"
 const certifications = [
   {
     title: "AWS Certified Cloud Practitioner",
-    issuer: "Amazon Web Services",
-    year: "2025",
     icon: SiAmazon,
+    details: [
+      "Foundational cloud certification",
+      "AWS core services",
+      "Cloud architecture basics",
+      "Issued: 2025",
+    ],
   },
   {
     title: "Project Management and Agile Fundamentals",
-    issuer: "Santander Academy",
-    year: "",
     icon: FaCertificate,
+    details: [
+      "Agile principles",
+      "Scrum framework",
+      "Sprint planning & execution",
+      "Issued by Santander Academy",
+    ],
   },
 ]
 
 export default function Certifications() {
+  const [open, setOpen] = useState(null)
+
   return (
     <main className="max-w-7xl mx-auto px-6 py-24">
       <motion.h1
@@ -29,30 +40,42 @@ export default function Certifications() {
         Certifications
       </motion.h1>
 
-      <div className="space-y-6">
-        {certifications.map((cert, index) => {
+      <div className="grid md:grid-cols-2 gap-8">
+        {certifications.map((cert) => {
           const Icon = cert.icon
+          const isOpen = open === cert.title
 
           return (
-            <motion.div
+            <div
               key={cert.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="border border-gray-200 rounded-xl p-6 bg-white shadow-sm flex items-start gap-4"
+              onClick={() =>
+                setOpen(isOpen ? null : cert.title)
+              }
+              className="border border-gray-200 rounded-xl p-6 bg-white shadow-sm cursor-pointer"
             >
-              <Icon className="text-2xl text-gray-700 mt-1" />
-
-              <div>
+              <div className="flex items-center gap-3">
+                <Icon className="text-xl text-gray-700" />
                 <h2 className="text-lg font-semibold">
                   {cert.title}
                 </h2>
-                <p className="text-gray-600">
-                  {cert.issuer}
-                  {cert.year && ` • ${cert.year}`}
-                </p>
               </div>
-            </motion.div>
+
+              <motion.ul
+                initial={false}
+                animate={{
+                  height: isOpen ? "auto" : 0,
+                  opacity: isOpen ? 1 : 0,
+                }}
+                transition={{ duration: 0.3 }}
+                className="overflow-hidden mt-4 space-y-2"
+              >
+                {cert.details.map((item) => (
+                  <li key={item} className="text-gray-600">
+                    • {item}
+                  </li>
+                ))}
+              </motion.ul>
+            </div>
           )
         })}
       </div>

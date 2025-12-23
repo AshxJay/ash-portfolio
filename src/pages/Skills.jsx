@@ -1,95 +1,103 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { SiMongodb, SiAmazon, SiNodedotjs } from "react-icons/si"
+import { SiNodedotjs, SiAmazon, SiGit } from "react-icons/si"
+import { FaProjectDiagram } from "react-icons/fa"
 
 const skills = [
   {
-    name: "MongoDB",
-    icon: SiMongodb,
-    description:
-      "A document-oriented NoSQL database designed for flexibility, scalability, and modern application development.",
-    details:
-      "Experienced with schema design, aggregation pipelines, indexing strategies, and performance optimization.",
-  },
-  {
-    name: "AWS",
-    icon: SiAmazon,
-    description:
-      "Cloud platform for deploying, managing, and scaling production applications.",
-    details:
-      "Hands-on experience with EC2, S3, IAM, basic CI/CD pipelines, and deployment workflows.",
-  },
-  {
-    name: "Node.js",
+    title: "Backend & APIs",
     icon: SiNodedotjs,
-    description:
-      "JavaScript runtime for building fast, scalable backend services.",
-    details:
-      "Built REST APIs, authentication systems, and asynchronous services using Express and middleware patterns.",
+    items: [
+      "JavaScript (Node.js)",
+      "Express.js",
+      "RESTful API Design",
+    ],
+  },
+  {
+    title: "DevOps & CI/CD",
+    icon: SiAmazon,
+    items: [
+      "CI/CD Pipelines",
+      "Automated Deployment",
+      "JWT Authentication",
+      "ESLint",
+      "EVM",
+    ],
+  },
+  {
+    title: "Tools",
+    icon: SiGit,
+    items: [
+      "VS Code",
+      "Git",
+      "GitHub",
+      "Vercel",
+      "MongoDB Atlas",
+      "Postman",
+      "AWS Console",
+    ],
+  },
+  {
+    title: "Management Skills",
+    icon: FaProjectDiagram,
+    items: [
+      "Agile Methodology",
+      "Scrum Framework",
+      "Sprint Planning",
+    ],
   },
 ]
 
 export default function Skills() {
-  const [active, setActive] = useState(null)
+  const [open, setOpen] = useState(null)
 
   return (
     <main className="max-w-7xl mx-auto px-6 py-24">
-      
-      {/* Page Title */}
       <motion.h1
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.4 }}
         className="text-4xl font-bold mb-16"
       >
         Skills
       </motion.h1>
 
-      {/* Skill Cards */}
-      <div className="grid md:grid-cols-3 gap-10">
-        {skills.map((skill, index) => {
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {skills.map((skill) => {
           const Icon = skill.icon
-          const isOpen = active === skill.name
+          const isOpen = open === skill.title
 
           return (
-            <motion.div
-              key={skill.name}
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.15, duration: 0.5 }}
-              className="border border-gray-200 rounded-xl p-8 bg-white shadow-sm cursor-pointer"
+            <div
+              key={skill.title}
               onClick={() =>
-                setActive(isOpen ? null : skill.name)
+                setOpen(isOpen ? null : skill.title)
               }
+              className="border border-gray-200 rounded-xl p-6 bg-white shadow-sm cursor-pointer"
             >
-              {/* Header */}
-              <div className="flex items-center gap-4 mb-4">
-                <Icon className="text-3xl text-gray-800" />
-                <h2 className="text-xl font-semibold">
-                  {skill.name}
+              <div className="flex items-center gap-3">
+                <Icon className="text-xl text-gray-700" />
+                <h2 className="text-lg font-semibold">
+                  {skill.title}
                 </h2>
               </div>
 
-              {/* Short description */}
-              <p className="text-gray-600">
-                {skill.description}
-              </p>
-
-              {/* Expandable section */}
-              <motion.div
+              <motion.ul
                 initial={false}
                 animate={{
                   height: isOpen ? "auto" : 0,
                   opacity: isOpen ? 1 : 0,
                 }}
                 transition={{ duration: 0.3 }}
-                className="overflow-hidden"
+                className="overflow-hidden mt-4 space-y-2"
               >
-                <p className="text-gray-500 mt-4">
-                  {skill.details}
-                </p>
-              </motion.div>
-            </motion.div>
+                {skill.items.map((item) => (
+                  <li key={item} className="text-gray-600">
+                    • {item}
+                  </li>
+                ))}
+              </motion.ul>
+            </div>
           )
         })}
       </div>
